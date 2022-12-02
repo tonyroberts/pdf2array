@@ -1,0 +1,19 @@
+
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "declaration": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

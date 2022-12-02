@@ -1,0 +1,26 @@
+{
+  "name": "pdf2array",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "build": "npx tsc",
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^3.1.81"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.3",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  }
+}
