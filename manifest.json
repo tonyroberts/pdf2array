@@ -1,0 +1,8 @@
+{
+  "short_name": "pdf2array",
+  "name": "pdf2array demo",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
