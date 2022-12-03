@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/pdf2array/static/css/main.b462cab3.css",
-    "main.js": "/pdf2array/static/js/main.57ae9fdc.js",
-    "index.html": "/pdf2array/index.html",
-    "main.b462cab3.css.map": "/pdf2array/static/css/main.b462cab3.css.map",
-    "main.57ae9fdc.js.map": "/pdf2array/static/js/main.57ae9fdc.js.map"
+    "main.css": "/static/css/main.b462cab3.css",
+    "main.js": "/static/js/main.57ae9fdc.js",
+    "index.html": "/index.html",
+    "main.b462cab3.css.map": "/static/css/main.b462cab3.css.map",
+    "main.57ae9fdc.js.map": "/static/js/main.57ae9fdc.js.map"
   },
   "entrypoints": [
     "static/css/main.b462cab3.css",
