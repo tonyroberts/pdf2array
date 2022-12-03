@@ -1,5 +1,7 @@
 # pdf2array
 
+[![Tests](https://github.com/tonyroberts/pdf2array/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/tonyroberts/pdf2array/actions/workflows/tests.yml)
+
 pdf2array is a Typescript package that loads PDF files and extracts text as a tabular array of values.
 
 It uses [pdf.js](https://github.com/mozilla/pdf.js/) and is intended to make extracting tabular data from PDF files simpler.
