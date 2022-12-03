@@ -1,0 +1,43 @@
+name: Github Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 18
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Install
+        run: yarn install
+
+      - name: Build
+        run: |
+          yarn build
+
+      - name: Install Demo
+        working-directory: demo
+        run: |
+          yarn install
+
+      - name: Build Demo
+        working-directory: demo
+        run: |
+          yarn build
+
+      - name: Deploy Demo
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: demo/build
