@@ -14,4 +14,27 @@ describe('pdf2array', () => {
         expect(array[43]).toEqual(["Lorem ipsum", "Lorem ipsum", "Lorem ipsum"]);
     });
 
+    it('should strip footers', async () => {
+        const data = fs.readFileSync(path.resolve(__dirname, "./with_footer.pdf"))
+        expect(data).not.toBeNull()
+
+        // With footers first
+        const withFooters = await pdf2array(data, {
+            stripFooters: false
+        });
+
+        expect(withFooters).not.toBeNull();
+        expect(withFooters[withFooters.length-1]).toEqual(
+            ["Page 4", "Lorem ipsum", "Tuesday, December 6, 2022"]);
+
+        // Now without footers
+        const withoutFooters = await pdf2array(data, {
+            stripFooters: true
+        });
+
+        expect(withoutFooters).not.toBeNull();
+        expect(withoutFooters[withoutFooters.length-1]).toEqual(
+            ["amet id sapien."]);
+    });
+
 });

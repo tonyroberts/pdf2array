@@ -1,0 +1,29 @@
+.demo {
+    margin: 25px;
+
+    .error {
+        color: red;
+    }
+
+    div {
+        margin: 10px 0px 10px 0px;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+
+        div {
+            margin: 5px 0px 5px 0px;
+        }
+
+        input {
+            margin-left: 0px;
+        }
+    }
+
+    table, th, td {
+        border: 0.5px solid;
+        border-collapse: collapse;
+    }
+}

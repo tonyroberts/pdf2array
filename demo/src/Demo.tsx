@@ -1,6 +1,8 @@
-import {pdf2array, pdfjs} from "pdf2array";
+import {pdf2array, Pdf2ArrayOptions, pdfjs} from "pdf2array";
 import React, {ChangeEvent} from 'react';
-import './Demo.css';
+import produce from 'immer';
+import './Demo.scss';
+
 
 // Set up the worker for pdfs
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -8,12 +10,19 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 const Demo: React.FC = () => {
     const [file, setFile] = React.useState<File | undefined>();
+    const [options, setOptions] = React.useState<Pdf2ArrayOptions>({});
     const [data, setData] = React.useState<string[][] | undefined>();
     const [error, setError] = React.useState<string | undefined>();
 
     // Set the file state when the selected file is changed by the user
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         setFile(event.currentTarget.files?.item(0) ?? undefined);
+    }
+
+    const handleStripFooters = (event: ChangeEvent<HTMLInputElement>) => {
+        setOptions(produce((draft) => {
+            draft.stripFooters = event.target?.checked;
+        }))
     }
 
     // When the file changes load the data and convert to an array using pdf2array
@@ -24,7 +33,7 @@ const Demo: React.FC = () => {
             if (!!file) {
                 try {
                     const buffer = await file.arrayBuffer();
-                    const data = await pdf2array(buffer)
+                    const data = await pdf2array(buffer, options)
 
                     if (mounted) {
                         setData(data);
@@ -40,7 +49,7 @@ const Demo: React.FC = () => {
         })();
 
         return () => { mounted = false; }
-    }, [file, setData, setError]);
+    }, [file, options, setData, setError]);
 
     return (
         <div className="demo">
@@ -52,11 +61,24 @@ const Demo: React.FC = () => {
             </div>
 
             <form>
-                <input
-                    type={"file"}
-                    accept=".pdf, application/pdf"
-                    onChange={handleFileChange}
-                />
+                <div className={"options"}>
+                    <div>
+                        <input
+                            type={"file"}
+                            accept=".pdf, application/pdf"
+                            onChange={handleFileChange}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            id={'strip-footers-checkbox'}
+                            type={"checkbox"}
+                            checked={!!options.stripFooters}
+                            onChange={handleStripFooters}
+                        />
+                        <label htmlFor={'strip-footers-checkbox'}>Strip Footers</label>
+                    </div>
+                </div>
             </form>
 
             {(() => {

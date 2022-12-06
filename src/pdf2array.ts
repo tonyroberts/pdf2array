@@ -1,5 +1,27 @@
 import * as pdfjs from "pdfjs-dist";
 import {TextItem} from "pdfjs-dist/types/src/display/api";
+import {stripFooters, StripFootersOptions} from "./filters/footers";
+
+
+export type TextItemWithPosition = TextItem & {
+    x: number;
+    y: number;
+}
+
+
+export interface Row {
+    page: number;
+    rowNumber: number;
+    y: number;
+    xs: number[];
+    items: TextItemWithPosition[];
+}
+
+
+export interface Pdf2ArrayOptions {
+    stripFooters?: boolean | StripFootersOptions;
+}
+
 
 /**
  * Transform an (x, y) coordinate by a pdf transformation matrix.
@@ -18,31 +40,17 @@ function _transform(x: number, y: number, transform: number[]) {
     return [xt, yt];
 }
 
-type TextItemWithPosition = TextItem & {
-    x: number;
-    y: number;
-}
-
-interface Row {
-    y: number;
-    xs: number[];
-    items: TextItemWithPosition[];
-}
-
 /**
  * Loads a PDF file and returns text values arranged into a
  * 2d array.
  *
  * @param data
+ * @param options
  */
-
-interface Pdf2ArrayOptions {
-}
-
-async function pdf2array(data: ArrayBuffer, options?: Pdf2ArrayOptions): Promise<string[][]> {
+export async function pdf2array(data: ArrayBuffer, options?: Pdf2ArrayOptions): Promise<string[][]> {
     const doc = await pdfjs.getDocument(data).promise;
 
-    const rows: Row[] = [];
+    let rows: Row[] = [];
     let currentRow: Row = undefined;
 
     for (let i = 0; i < doc.numPages; ++ i) {
@@ -100,6 +108,8 @@ async function pdf2array(data: ArrayBuffer, options?: Pdf2ArrayOptions): Promise
 
                 // And start a new row
                 currentRow = {
+                    page: i,
+                    rowNumber: rows.length,
                     y: item.y,
                     xs: [item.x],
                     items: [item]
@@ -118,14 +128,13 @@ async function pdf2array(data: ArrayBuffer, options?: Pdf2ArrayOptions): Promise
         rows.push(currentRow);
     }
 
+    // Apply any filters
+    if (!!options?.stripFooters) {
+        rows = stripFooters(rows,
+            typeof(options.stripFooters) === 'boolean' ? undefined : options.stripFooters);
+    }
+
     return rows.map((row) => {
         return row.items.map((item) => item.str);
     })
-}
-
-
-export {
-    pdf2array,
-    Pdf2ArrayOptions,
-    pdfjs,
 }
