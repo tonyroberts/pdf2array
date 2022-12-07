@@ -35,8 +35,8 @@ function _cmpFooters(a: Row, b: Row, options?: StripFootersOptions) {
         // If the x-coords are not similar (either the start, end or center since they could be left,
         // right or center justified) then they're not both footers.
         if (Math.abs(aItem.x - bItem.x) > xTolerance &&
-            Math.abs((aItem[i].x + aItem.width) - (bItem.x + bItem.width)) > xTolerance &&
-            Math.abs((aItem[i].x + aItem.width / 2) - (bItem.x + bItem.width / 2)) > xTolerance) {
+            Math.abs((aItem.x + aItem.width) - (bItem.x + bItem.width)) > xTolerance &&
+            Math.abs((aItem.x + aItem.width / 2) - (bItem.x + bItem.width / 2)) > xTolerance) {
             return false;
         }
 

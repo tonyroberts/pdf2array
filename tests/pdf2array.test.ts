@@ -37,4 +37,26 @@ describe('pdf2array', () => {
             ["amet id sapien."]);
     });
 
+    it('should strip superscript', async () => {
+        const data = fs.readFileSync(path.resolve(__dirname, "./with_footnote.pdf"))
+        expect(data).not.toBeNull()
+
+        // With superscript first
+        const withSuperscript = await pdf2array(data, {
+            stripSuperscript: false
+        });
+
+        expect(withSuperscript).not.toBeNull();
+        expect(withSuperscript[0]).toEqual(["1", "2"]);
+
+        // Without superscript
+        const withoutSuperscript = await pdf2array(data, {
+            stripSuperscript: true
+        });
+
+        expect(withoutSuperscript).not.toBeNull();
+        expect(withoutSuperscript[0]).toEqual(
+            ["Lorem ipsum", "Lorem ipsum", "Lorem ipsum"]);
+    })
+
 });

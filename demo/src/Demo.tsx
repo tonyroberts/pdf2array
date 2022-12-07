@@ -25,6 +25,12 @@ const Demo: React.FC = () => {
         }))
     }
 
+    const handleStripSuperscript = (event: ChangeEvent<HTMLInputElement>) => {
+        setOptions(produce((draft) => {
+            draft.stripSuperscript = event.target?.checked;
+        }))
+    }
+
     // When the file changes load the data and convert to an array using pdf2array
     React.useEffect(() => {
         let mounted = true;
@@ -77,6 +83,15 @@ const Demo: React.FC = () => {
                             onChange={handleStripFooters}
                         />
                         <label htmlFor={'strip-footers-checkbox'}>Strip Footers</label>
+                    </div>
+                    <div>
+                        <input
+                            id={'strip-superscript-checkbox'}
+                            type={"checkbox"}
+                            checked={!!options.stripSuperscript}
+                            onChange={handleStripSuperscript}
+                        />
+                        <label htmlFor={'strip-superscript-checkbox'}>Strip Superscript</label>
                     </div>
                 </div>
             </form>

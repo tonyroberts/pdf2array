@@ -14,6 +14,7 @@
     "node": ">=18"
   },
   "dependencies": {
+    "kdtree-ts": "https://github.com/tonyroberts/kdtree-ts",
     "pdfjs-dist": "^3.1.81"
   },
   "devDependencies": {

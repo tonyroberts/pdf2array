@@ -1,6 +1,7 @@
 import * as pdfjs from "pdfjs-dist";
 import {TextItem} from "pdfjs-dist/types/src/display/api";
 import {stripFooters, StripFootersOptions} from "./filters/footers";
+import {StripSuperscriptOptions, stripSuperscripts} from "./filters/superscript";
 
 
 export type TextItemWithPosition = TextItem & {
@@ -20,6 +21,7 @@ export interface Row {
 
 export interface Pdf2ArrayOptions {
     stripFooters?: boolean | StripFootersOptions;
+    stripSuperscript?: boolean | StripSuperscriptOptions;
 }
 
 
@@ -132,6 +134,11 @@ export async function pdf2array(data: ArrayBuffer, options?: Pdf2ArrayOptions): 
     if (!!options?.stripFooters) {
         rows = stripFooters(rows,
             typeof(options.stripFooters) === 'boolean' ? undefined : options.stripFooters);
+    }
+
+    if (!!options?.stripSuperscript) {
+        rows = stripSuperscripts(rows,
+            typeof(options.stripSuperscript) === 'boolean' ? undefined : options.stripSuperscript);
     }
 
     return rows.map((row) => {
