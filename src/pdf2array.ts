@@ -1,7 +1,8 @@
 import * as pdfjs from "pdfjs-dist";
 import {TextItem} from "pdfjs-dist/types/src/display/api";
 import {stripFooters, StripFootersOptions} from "./filters/footers";
-import {StripSuperscriptOptions, stripSuperscripts} from "./filters/superscript";
+import {stripSuperscripts, StripSuperscriptOptions} from "./filters/superscript";
+import {applySlice, SliceOptions} from "./filters/slice";
 
 
 export type TextItemWithPosition = TextItem & {
@@ -20,8 +21,10 @@ export interface Row {
 
 
 export interface Pdf2ArrayOptions {
+    pages?: number[];
     stripFooters?: boolean | StripFootersOptions;
     stripSuperscript?: boolean | StripSuperscriptOptions;
+    slice?: boolean | SliceOptions;
 }
 
 
@@ -56,6 +59,10 @@ export async function pdf2array(data: ArrayBuffer, options?: Pdf2ArrayOptions): 
     let currentRow: Row = undefined;
 
     for (let i = 0; i < doc.numPages; ++ i) {
+        if (!!options?.pages && options.pages.findIndex((p) => p === i+1) < 0) {
+            continue;
+        }
+
         const page = await doc.getPage(i+1);
         const text = await page.getTextContent();
 
@@ -139,6 +146,11 @@ export async function pdf2array(data: ArrayBuffer, options?: Pdf2ArrayOptions): 
     if (!!options?.stripSuperscript) {
         rows = stripSuperscripts(rows,
             typeof(options.stripSuperscript) === 'boolean' ? undefined : options.stripSuperscript);
+    }
+
+    if (!!options?.slice) {
+        rows = applySlice(rows,
+            typeof(options.slice) === 'boolean' ? undefined : options.slice);
     }
 
     return rows.map((row) => {

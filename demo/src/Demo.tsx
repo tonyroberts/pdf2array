@@ -19,6 +19,13 @@ const Demo: React.FC = () => {
         setFile(event.currentTarget.files?.item(0) ?? undefined);
     }
 
+    const handleSetPage = (event: ChangeEvent<HTMLInputElement>) => {
+        setOptions(produce((draft) => {
+            const value = +event.target.value;
+            draft.pages = isNaN(value) || value <= 0 ? undefined : [value];
+        }))
+    }
+
     const handleStripFooters = (event: ChangeEvent<HTMLInputElement>) => {
         setOptions(produce((draft) => {
             draft.stripFooters = event.target?.checked;
@@ -28,6 +35,12 @@ const Demo: React.FC = () => {
     const handleStripSuperscript = (event: ChangeEvent<HTMLInputElement>) => {
         setOptions(produce((draft) => {
             draft.stripSuperscript = event.target?.checked;
+        }))
+    }
+
+    const handleSetSlice = (event: ChangeEvent<HTMLInputElement>) => {
+        setOptions(produce((draft) => {
+            draft.slice = event.target?.checked;
         }))
     }
 
@@ -76,6 +89,15 @@ const Demo: React.FC = () => {
                         />
                     </div>
                     <div>
+                        <label htmlFor={'page-input'}>Page</label>
+                        <input
+                            id={'page-input'}
+                            type={"number"}
+                            value={(options.pages ? options.pages[0] : '') ?? ''}
+                            onChange={handleSetPage}
+                        />
+                    </div>
+                    <div>
                         <input
                             id={'strip-footers-checkbox'}
                             type={"checkbox"}
@@ -92,6 +114,15 @@ const Demo: React.FC = () => {
                             onChange={handleStripSuperscript}
                         />
                         <label htmlFor={'strip-superscript-checkbox'}>Strip Superscript</label>
+                    </div>
+                    <div>
+                        <input
+                            id={'slice-checkbox'}
+                            type={"checkbox"}
+                            checked={!!options.slice}
+                            onChange={handleSetSlice}
+                        />
+                        <label htmlFor={'slice-checkbox'}>SLICE</label>
                     </div>
                 </div>
             </form>
@@ -113,7 +144,7 @@ const Demo: React.FC = () => {
                     });
 
                     return <div>
-                        <table>{rows}</table>
+                        <table><tbody>{rows}</tbody></table>
                     </div>;
                 }
             })()}
