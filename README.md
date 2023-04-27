@@ -9,13 +9,14 @@ It uses [pdf.js](https://github.com/mozilla/pdf.js/) and is intended to make ext
 For example usage see the [online demo](https://tonyroberts.github.io/pdf2array/).
 
 ### Usage
-
+```
 import * as fs from "fs";
 import * as path from "path";
 import pdf2array from "pdf2array";
 
 const data = fs.readFileSync(path.resolve(__dirname, "./file-sample_150kB.pdf"));
 const array = await pdf2array(data);
+```
 
 ### Functions
 
@@ -36,7 +37,7 @@ const array = await pdf2array(data);
 - When set to `true`, removes superscript text (like footnote markers) from the output array.
 
 ### Example
-
+```
 import * as fs from "fs";
 import * as path from "path";
 import pdf2array from "pdf2array";
@@ -49,6 +50,7 @@ const options = {
 };
 
 const array = await pdf2array(data, options);
+```
 
 ### Tests
 
