@@ -1,4 +1,4 @@
-import * as pdfjs from "pdfjs-dist";
+import * as pdfjs from "pdfjs-dist/legacy/build/pdf.js";
 import {TextItem} from "pdfjs-dist/types/src/display/api";
 import {stripFooters, StripFootersOptions} from "./filters/footers";
 import {stripSuperscripts, StripSuperscriptOptions} from "./filters/superscript";

@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "npx tsc",
+    "prepare": "npm run build",
     "test": "jest"
   },
   "engines": {
